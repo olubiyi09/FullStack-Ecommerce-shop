@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <section className={`container ${styles.auth} `}>
       <div className={styles.img}>
-        <img src={LoginImg} alt="Login Image" width={400} />
+        <img src={LoginImg} alt="Login-Img" width={400} />
       </div>
       <Card>
         <div className={styles.form}>
