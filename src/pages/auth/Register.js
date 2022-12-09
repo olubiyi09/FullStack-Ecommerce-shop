@@ -3,11 +3,11 @@ import styles from "./auth.module.scss";
 import RegisterImg from "../../assets/register.png";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../components/card/Card";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import Loader from "../../components/loader/Loader";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +22,7 @@ const Register = () => {
 
     if (password !== cPassword) {
       toast.error("Password does not match.");
+      return;
     }
     setIsLoading(true);
 
@@ -41,7 +42,7 @@ const Register = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {isLoading && <Loader />}
       <section className={`container ${styles.auth} `}>
         <Card>

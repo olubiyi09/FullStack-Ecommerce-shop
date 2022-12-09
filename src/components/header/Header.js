@@ -1,8 +1,20 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
-import { FaShoppingCart, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaTimes, FaUserCircle } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../../firebase/config";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import {
+  REMOVE_ACTIVE_USER,
+  SET_ACTIVE_USER,
+} from "../../redux/slice/authSlice";
+import ShowOnLogin, { ShowOnLogout } from "../hiddenLinks/hiddenLinks";
+import AdminOnlyRoute, {
+  AdminOnlyLink,
+} from "../adminOnlyRoute/AdminOnlyRoute";
 
 const logo = (
   <div className={styles.logo}>
@@ -28,6 +40,40 @@ const activeLink = ({ isActive }) => (isActive ? `${styles.active}` : "");
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  // Monitor currently signed in user
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      // The userName if not sign in with google account
+      if (user) {
+        if (user.displayName == null) {
+          const u1 = user.email.substring(0, user.email.indexOf("@"));
+          const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
+          setDisplayName(uName);
+        } else {
+          // const uid = user.uid;
+          // user.displayName;
+          setDisplayName(user.displayName);
+        }
+
+        dispatch(
+          SET_ACTIVE_USER({
+            email: user.email,
+            userName: user.displayName ? user.displayName : displayName,
+            userID: user.uid,
+          })
+        );
+      } else {
+        // User is signed out
+        setDisplayName("");
+        dispatch(REMOVE_ACTIVE_USER());
+      }
+    });
+  }, [dispatch, displayName]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -35,6 +81,17 @@ const Header = () => {
 
   const hideMenu = () => {
     setShowMenu(false);
+  };
+
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        toast.success("Logout successfully.");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -61,6 +118,15 @@ const Header = () => {
               {logo}
               <FaTimes size={22} color="#fff" onClick={hideMenu} />
             </li>
+
+            <AdminOnlyLink>
+              <Link to="/admin/home">
+                <li>
+                  <button className="--btn --btn-primary">Admin</button>
+                </li>
+              </Link>
+            </AdminOnlyLink>
+
             <li>
               <NavLink to="/" className={activeLink}>
                 Home
@@ -74,15 +140,34 @@ const Header = () => {
           </ul>
           <div className={styles["header-right"]} onClick={hideMenu}>
             <span className={styles.links}>
-              <NavLink to="/login" className={activeLink}>
-                Login
-              </NavLink>
-              <NavLink to="/register" className={activeLink}>
-                Register
-              </NavLink>
-              <NavLink to="/order-history" className={activeLink}>
-                My Orders
-              </NavLink>
+              <ShowOnLogout>
+                <NavLink to="/login" className={activeLink}>
+                  Login
+                </NavLink>
+              </ShowOnLogout>
+
+              <ShowOnLogin>
+                <a href="#home" style={{ color: "#ff7722" }}>
+                  <FaUserCircle size={16} />
+                  Hi, {displayName}
+                </a>
+              </ShowOnLogin>
+
+              <ShowOnLogout>
+                <NavLink to="/register" className={activeLink}>
+                  Register
+                </NavLink>
+              </ShowOnLogout>
+              <ShowOnLogin>
+                <NavLink to="/order-history" className={activeLink}>
+                  My Orders
+                </NavLink>
+              </ShowOnLogin>
+              <ShowOnLogin>
+                <NavLink to="/" onClick={logoutUser}>
+                  logout
+                </NavLink>
+              </ShowOnLogin>
             </span>
             {cart}
           </div>
