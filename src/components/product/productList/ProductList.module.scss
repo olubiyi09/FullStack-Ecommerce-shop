@@ -29,8 +29,22 @@
         border: none;
         // border-bottom: 1px solid #777;
         outline: none;
+        color: #fff;
+        background: #0066d4;
+      }
+
+      option {
+        background: #fff;
+        color: #0066d4;
       }
     }
+  }
+
+  .color {
+    background: #0066d4;
+    color: #fff;
+    border-radius: 5px;
+    padding: 1rem;
   }
 
   // .search {

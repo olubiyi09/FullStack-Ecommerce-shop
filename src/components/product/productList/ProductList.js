@@ -1,14 +1,31 @@
-import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ProductList.module.scss";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaListAlt } from "react-icons/fa";
 import Search from "../../search/Search";
 import ProductItem from "../productItem/ProductItem";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  FILTER_BY_SEARCH,
+  selectFilteredProduct,
+  SORT_PRODUCTS,
+} from "../../../redux/slice/filterSlice";
 
 const ProductList = ({ products }) => {
   const [grid, setGrid] = useState(true);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("latest");
+  const filteredProducts = useSelector(selectFilteredProduct);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(SORT_PRODUCTS({ products, sort }));
+  }, [dispatch, products, sort]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_SEARCH({ products, search }));
+  }, [dispatch, products, search]);
 
   return (
     <div className={styles["product-list"]} id="product">
@@ -23,7 +40,7 @@ const ProductList = ({ products }) => {
           <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)} />
 
           <p>
-            <b>10</b> Products found.
+            <b>{filteredProducts.length}</b> Products found.
           </p>
         </div>
 
@@ -33,15 +50,17 @@ const ProductList = ({ products }) => {
         </div>
 
         {/* Sort Products */}
-        <div className={styles.sort}>
-          <label>Sort by:</label>
-          <select>
-            <option value="latest">Latest</option>
-            <option value="lowest-price">Lowest price</option>
-            <option value="highest-price">Highest price</option>
-            <option value="a-z">A - Z</option>
-            <option value="z-a">Z - A</option>
-          </select>
+        <div className={styles.color}>
+          <div className={styles.sort}>
+            <label>Sort by:</label>
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="latest">Latest</option>
+              <option value="lowest-price">Lowest price</option>
+              <option value="highest-price">Highest price</option>
+              <option value="a-z">A - Z</option>
+              <option value="z-a">Z - A</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -50,7 +69,7 @@ const ProductList = ({ products }) => {
           <p>No product found.</p>
         ) : (
           <>
-            {products.map((product) => {
+            {filteredProducts.map((product) => {
               return (
                 <div key={product.id}>
                   <ProductItem {...product} grid={grid} product={product} />
