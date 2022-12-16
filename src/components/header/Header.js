@@ -6,7 +6,7 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   REMOVE_ACTIVE_USER,
   SET_ACTIVE_USER,
@@ -15,6 +15,11 @@ import ShowOnLogin, { ShowOnLogout } from "../hiddenLinks/hiddenLinks";
 import AdminOnlyRoute, {
   AdminOnlyLink,
 } from "../adminOnlyRoute/AdminOnlyRoute";
+import {
+  CALCULATE_TOTAL_QUANTITY,
+  selectCartTotalAmount,
+  selectCartTotalQuantity,
+} from "../../redux/slice/cartSlice";
 
 const logo = (
   <div className={styles.logo}>
@@ -26,24 +31,30 @@ const logo = (
   </div>
 );
 
-const cart = (
-  <span className={styles.cart}>
-    <Link to="/cart">
-      Cart
-      <FaShoppingCart size={20} />
-      <p>0</p>
-    </Link>
-  </span>
-);
-
 const activeLink = ({ isActive }) => (isActive ? `${styles.active}` : "");
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [displayName, setDisplayName] = useState("");
+  const [ScrollPage, setScrollPage] = useState(false);
+  const CartTotalQuantity = useSelector(selectCartTotalQuantity);
+
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, []);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const fixNavbar = () => {
+    if (window.scrollY > 50) {
+      setScrollPage(true);
+    } else {
+      setScrollPage(false);
+    }
+  };
+  window.addEventListener("scroll", fixNavbar);
 
   // Monitor currently signed in user
   useEffect(() => {
@@ -94,8 +105,18 @@ const Header = () => {
       });
   };
 
+  const cart = (
+    <span className={styles.cart}>
+      <Link to="/cart">
+        Cart
+        <FaShoppingCart size={20} />
+        <p>{CartTotalQuantity}</p>
+      </Link>
+    </span>
+  );
+
   return (
-    <header>
+    <header className={ScrollPage ? `${styles.fixed}` : null}>
       <div className={styles.header}>
         {logo}
 
