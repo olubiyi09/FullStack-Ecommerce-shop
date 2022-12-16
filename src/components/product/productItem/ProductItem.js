@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ADD_TO_CART } from "../../../redux/slice/cartSlice";
 import Card from "../../card/Card";
 import styles from "./ProductItem.module.scss";
 
@@ -10,6 +12,12 @@ const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
       return shortenedText;
     }
     return text;
+  };
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(ADD_TO_CART(product));
   };
 
   return (
@@ -28,7 +36,12 @@ const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
           </div>
           {!grid && <p className={styles.desc}>{shortenText(desc, 200)}</p>}
 
-          <button className="--btn --btn-danger">Add To Cart</button>
+          <button
+            className="--btn --btn-danger"
+            onClick={() => addToCart(product)}
+          >
+            Add To Cart
+          </button>
         </div>
       </div>
     </Card>
