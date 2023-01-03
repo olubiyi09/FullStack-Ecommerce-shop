@@ -14,6 +14,10 @@ import {
   selectCartItems,
 } from "../../../redux/slice/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import useFetchDocument from "../../../customHooks/useFetchDocument";
+import useFetchCollection from "../../../customHooks/useFetchCollect";
+import Card from "../../card/Card";
+import StarsRating from "react-star-rate";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,6 +26,10 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const cartItems = useSelector(selectCartItems);
+  const { document } = useFetchDocument("product", id);
+  const { data } = useFetchCollection("reviews");
+
+  const filteredReviews = data.filter((review) => review.productID === id);
 
   const cart = cartItems.find((cart) => cart.id === id);
 
@@ -30,8 +38,8 @@ const ProductDetails = () => {
   });
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    setProduct(document);
+  }, [document]);
 
   const addToCart = (product) => {
     dispatch(ADD_TO_CART(product));
@@ -41,22 +49,6 @@ const ProductDetails = () => {
   const decreaseCart = (product) => {
     dispatch(DECREASE_CART(product));
     dispatch(CALCULATE_TOTAL_QUANTITY());
-  };
-
-  const getProduct = async () => {
-    const docRef = doc(db, "product", id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      // console.log("Document data:", docSnap.data());
-      const obj = {
-        id: id,
-        ...docSnap.data(),
-      };
-      setProduct(obj);
-    } else {
-      toast.error("Product not found");
-    }
   };
 
   return (
@@ -134,6 +126,40 @@ const ProductDetails = () => {
             </div>
           </>
         )}
+
+        <Card>
+          <div className={styles.card}>
+            <h3>Product Reviews</h3>
+            <div>
+              {filteredReviews.length === 0 ? (
+                <p>There are no review for this product</p>
+              ) : (
+                <>
+                  {filteredReviews.map((item, index) => {
+                    const { rate, review, reviewDate, userName } = item;
+
+                    return (
+                      <div key={index} className={styles.review}>
+                        <StarsRating value={rate} />
+                        <p>{review}</p>
+
+                        <p>
+                          <span>
+                            <b>{reviewDate} </b>
+                          </span>
+                          <br />
+                          <span>
+                            <b>by: {userName}</b>
+                          </span>
+                        </p>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
+          </div>
+        </Card>
       </div>
     </section>
   );

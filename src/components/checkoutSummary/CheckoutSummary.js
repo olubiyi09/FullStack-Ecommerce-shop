@@ -14,7 +14,7 @@ const CheckoutSummary = () => {
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
-  console.log(cartTotalAmount);
+  // console.log(cartTotalAmount);
   return (
     <div>
       <h3>Checkout Summary</h3>
