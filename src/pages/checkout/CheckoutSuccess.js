@@ -1,7 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { CLEAR_CART } from "../../redux/slice/cartSlice";
 
 const CheckoutSuccess = () => {
+  const dispatch = useDispatch();
+
+  dispatch(CLEAR_CART());
+
   return (
     <section>
       <div className="container">

@@ -1,10 +1,7 @@
-import { async } from "@firebase/util";
-import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { db } from "../../../firebase/config";
+
 import styles from "./ProductDetails.module.scss";
 import spinnerImg from "../../../assets/spinner.jpg";
 import {

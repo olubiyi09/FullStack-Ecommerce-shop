@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillDownCircle } from "react-icons/ai";
+// import { AiFillDownCircle } from "react-icons/ai";
 import InfoBox from "../../infoBox/InfoBox";
 import styles from "./Home.module.scss";
 import { AiFillDollarCircle } from "react-icons/ai";

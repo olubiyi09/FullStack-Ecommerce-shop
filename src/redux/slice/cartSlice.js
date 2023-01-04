@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 
 const initialState = {
   cartItems: localStorage.getItem("cartItems")
@@ -23,17 +22,11 @@ const cartSlice = createSlice({
         // Item that already exist in the cart
         // Increase the cart quantity for the item
         state.cartItems[productIndex].cartQuantity += 1;
-        toast.info(`${action.payload.name} increase by one`, {
-          position: "top-left",
-        });
       } else {
         // Item that does not already exist in the cart
         // Add item to the cart
         const temporaryProduct = { ...action.payload, cartQuantity: 1 };
         state.cartItems.push(temporaryProduct);
-        toast.info(`${action.payload.name} added to cart`, {
-          position: "top-left",
-        });
       }
 
       // Save cart to localStorage
@@ -47,17 +40,11 @@ const cartSlice = createSlice({
 
       if (state.cartItems[productIndex].cartQuantity > 1) {
         state.cartItems[productIndex].cartQuantity -= 1;
-        toast.info(`${action.payload.name} decrease by one`, {
-          position: "top-left",
-        });
       } else if (state.cartItems[productIndex].cartQuantity === 1) {
         const newCartItem = state.cartItems.filter(
           (item) => item.id !== action.payload.id
         );
         state.cartItems = newCartItem;
-        toast.info(`${action.payload.name} removed from cart`, {
-          position: "top-left",
-        });
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
@@ -68,18 +55,13 @@ const cartSlice = createSlice({
       );
 
       state.cartItems = newCartItem;
-      toast.info(`${action.payload.name} removed from cart`, {
-        position: "top-left",
-      });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 
     CLEAR_CART(state, action) {
       state.cartItems = [];
-      toast.info(`Cart has been cleared`, {
-        position: "top-left",
-      });
+
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
 

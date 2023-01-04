@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../components/card/Card";
@@ -64,13 +65,23 @@ const Cart = () => {
   return (
     <section>
       <div className={`container ${styles.table}`}>
-        <h2>Shopping Cart</h2>
+        <h2>{cartItems.length === 0 ? "" : "Shopping Cart"}</h2>
+
         {cartItems.length === 0 ? (
-          <>
-            <p>Your cart is empty.</p>
-            <br />
-            <Link to="/#products">&larr; Go Back to Shop</Link>
-          </>
+          <div className={styles.empty}>
+            <div className={styles.empty1}>
+              <div className={styles.icon}>
+                <AiOutlineShoppingCart size={60} color="orangered" />
+              </div>
+              <div className={styles.cartp}>Your cart is empty!</div>
+              <p>Browse our categories and discover our best deals!</p>
+              <br />
+
+              <Link to="/#products">
+                <button className="--btn">&larr; Go Back to Shop</button>
+              </Link>
+            </div>
+          </div>
         ) : (
           <>
             <table>

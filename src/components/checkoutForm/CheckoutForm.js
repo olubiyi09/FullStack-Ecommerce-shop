@@ -7,7 +7,6 @@ import {
 import styles from "./CheckoutForm.module.scss";
 import CheckoutSummary from "../checkoutSummary/CheckoutSummary";
 import spinnerImg from "../../assets/spinner.jpg";
-import { toast } from "react-toastify";
 import Card from "../card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { selectEmail, selectUserID } from "../../redux/slice/authSlice";
@@ -71,11 +70,8 @@ const CheckoutForm = () => {
       addDoc(collection(db, "orders"), orderConfig);
       dispatch(CLEAR_CART());
 
-      toast.success("Order Saved");
       navigate("/checkout-success");
-    } catch (error) {
-      toast.error(error.message);
-    }
+    } catch (error) {}
   };
 
   const handleSubmit = async (e) => {
@@ -101,14 +97,13 @@ const CheckoutForm = () => {
       .then((result) => {
         // Ok - PaymentIntent //or Bad - error
         if (result.error) {
-          toast.error(result.error.message);
           setMessage(result.error.message);
           return;
         }
         if (result.paymentIntent) {
           if (result.paymentIntent.status === "succeeded") {
             setIsLoading(false);
-            toast.success("Payment successful");
+
             saveOrder();
           }
         }
