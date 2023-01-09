@@ -75,9 +75,9 @@ const Checkout = () => {
 
   return (
     <>
-      <section>
+      <div className="checkout">
         <div className="container">{!clientSecret && <h3>{message}</h3>}</div>
-      </section>
+      </div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
