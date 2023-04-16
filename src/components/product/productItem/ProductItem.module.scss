@@ -4,6 +4,9 @@
   margin: 5px;
   height: 36rem;
   position: relative;
+  @media screen and (max-width: 800px) {
+    width: 30rem;
+  }
   .img {
     padding: 1rem;
     width: 100%;

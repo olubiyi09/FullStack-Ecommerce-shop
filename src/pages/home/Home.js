@@ -3,6 +3,7 @@ import { useEffect } from "react";
 // import AdminOnlyRoute from "../../components/adminOnlyRoute/AdminOnlyRoute";
 import Product from "../../components/product/Product";
 import Slider from "../../components/slider/Slider";
+import FullCategories from "../fullCategories/FullCategories";
 
 const Home = () => {
   const url = window.location.href;
@@ -22,6 +23,7 @@ const Home = () => {
   return (
     <div>
       <Slider />
+      <FullCategories />
       <Product />
     </div>
   );

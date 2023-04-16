@@ -19,7 +19,10 @@ const categories = [
   { id: 1, name: "Laptop" },
   { id: 2, name: "Electronics" },
   { id: 3, name: "Fashion" },
-  { id: 4, name: "Phone" },
+  { id: 4, name: "Grocries" },
+  { id: 5, name: "Sneakers" },
+  { id: 6, name: "Health & Beauty" },
+  { id: 7, name: "Phone" },
 ];
 
 const initialState = {
