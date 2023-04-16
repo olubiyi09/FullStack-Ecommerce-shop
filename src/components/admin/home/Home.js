@@ -71,9 +71,7 @@ const Home = () => {
         />
       </div>
 
-      <div>
-        <Charts />
-      </div>
+      <div>{/* <Charts /> */}</div>
     </div>
   );
 };
