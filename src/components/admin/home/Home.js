@@ -18,7 +18,7 @@ import {
 } from "../../../redux/slice/orderSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollect";
 import { useEffect } from "react";
-import Charts from "../../chart/Charts";
+import Charts from "../../charts/Charts";
 
 // Icons
 const earningIcon = <AiFillDollarCircle size={30} color="#1f93ff" />;
