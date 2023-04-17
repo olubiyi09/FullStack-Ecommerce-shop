@@ -127,7 +127,8 @@ const Cart = () => {
                           </button>
                         </div>
                       </td>
-                      <td>${price * cartQuantity.toFixed(2)}</td>
+                      {/* <td>${price * cartQuantity.toFixed(2)}</td> */}
+                      <td>${price * cartQuantity}</td>
                       <td className={styles.icons}>
                         <FaTrash
                           size={18}
@@ -161,7 +162,8 @@ const Cart = () => {
                     </p>
                     <div className={styles.text}>
                       <h4>Subtotal:</h4>
-                      <h3>{`$${cartTotalAmount.toFixed(2)}`}</h3>
+                      {/* <h3>{`$${cartTotalAmount.toFixed(2)}`}</h3> */}
+                      <h3>{`$${cartTotalAmount}`}</h3>
                     </div>
                   </div>
                   <p>Tax and shipping calculated at checkout</p>

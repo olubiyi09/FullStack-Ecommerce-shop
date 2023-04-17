@@ -11,6 +11,7 @@ import {
 } from "../../redux/slice/productSlice";
 import spinnerImg from "../../assets/spinner.jpg";
 import { FaCogs } from "react-icons/fa";
+import { CALCULATE_SUB_TOTAL } from "../../redux/slice/cartSlice";
 
 const Product = () => {
   const { data, isLoading } = useFetchCollection("product");
@@ -31,6 +32,8 @@ const Product = () => {
         products: data,
       })
     );
+
+    dispatch(CALCULATE_SUB_TOTAL());
   }, [dispatch, data]);
 
   const toggleFilter = () => {

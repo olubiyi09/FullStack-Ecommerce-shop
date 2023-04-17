@@ -44,8 +44,8 @@ const CheckoutSummary = () => {
                   <div className={styles.card}>
                     <h4>Product: {name}</h4>
                     <p>Quantity: {cartQuantity}</p>
-                    <p>Unit price: {price}</p>
-                    <p>Set price: {price * cartQuantity}</p>
+                    <p>Unit price: ${price}</p>
+                    <p>Set price: ${price * cartQuantity}</p>
                   </div>
                 </Card>
               );

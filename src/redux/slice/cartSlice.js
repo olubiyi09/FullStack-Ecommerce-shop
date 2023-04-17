@@ -4,7 +4,10 @@ const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
-  cartTotalAmount: 0,
+  cartTotalAmount: localStorage.getItem("cartTotalAmount")
+    ? JSON.parse(localStorage.getItem("cartTotalAmount"))
+    : 0,
+  // cartTotalAmount: 0,
   cartTotalQuantity: 0,
   previousURL: "",
 };
@@ -76,6 +79,11 @@ const cartSlice = createSlice({
       const totalAmount = array.reduce((a, b) => {
         return a + b;
       }, 0);
+      // Save cart to localStorage
+      localStorage.setItem(
+        "cartTotalAmount",
+        JSON.stringify(state.cartTotalAmount)
+      );
       state.cartTotalAmount = totalAmount;
     },
 

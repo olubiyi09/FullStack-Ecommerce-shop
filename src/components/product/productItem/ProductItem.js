@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import {
   ADD_TO_CART,
   CALCULATE_TOTAL_QUANTITY,
+  CALCULATE_SUB_TOTAL,
 } from "../../../redux/slice/cartSlice";
 import Card from "../../card/Card";
 import styles from "./ProductItem.module.scss";
@@ -23,6 +24,7 @@ const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
   const addToCart = () => {
     dispatch(ADD_TO_CART(product));
     dispatch(CALCULATE_TOTAL_QUANTITY());
+    dispatch(CALCULATE_SUB_TOTAL());
     toast.success("Product added successfully");
   };
 
