@@ -41,6 +41,8 @@ const Login = () => {
         setIsLoading(false);
         toast.success("Login Successful...");
         redirectUser();
+
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -55,6 +57,8 @@ const Login = () => {
       .then((result) => {
         // const user = result.user;
         toast.success("Login successfully.");
+
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);

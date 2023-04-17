@@ -107,7 +107,7 @@ const Cart = () => {
                         </p>
                         <img src={imageURL} alt={name} width={100} />
                       </td>
-                      <td>{price}</td>
+                      <td>${price}</td>
                       <td>
                         <div className={styles.count}>
                           <button
@@ -127,7 +127,7 @@ const Cart = () => {
                           </button>
                         </div>
                       </td>
-                      <td>{price * cartQuantity.toFixed(2)}</td>
+                      <td>${price * cartQuantity.toFixed(2)}</td>
                       <td className={styles.icons}>
                         <FaTrash
                           size={18}
@@ -142,15 +142,17 @@ const Cart = () => {
             </table>
 
             <div className={styles.summary}>
-              <button className="--btn --btn-danger" onClick={clearCart}>
-                Clear Cart
-              </button>
+              <div className={styles.flx}>
+                <button className="--btn --btn-danger" onClick={clearCart}>
+                  Clear Cart
+                </button>
 
-              <div className={styles.checkout}>
                 <div>
                   <Link to="/#products"> &larr; Continue Shopping</Link>
                 </div>
-                <br />
+              </div>
+
+              <div className={styles.checkout}>
                 <Card>
                   <div className={styles.card}>
                     <p>

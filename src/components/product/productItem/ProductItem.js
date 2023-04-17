@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   ADD_TO_CART,
   CALCULATE_TOTAL_QUANTITY,
@@ -22,6 +23,7 @@ const ProductItem = ({ product, grid, id, name, price, desc, imageURL }) => {
   const addToCart = () => {
     dispatch(ADD_TO_CART(product));
     dispatch(CALCULATE_TOTAL_QUANTITY());
+    toast.success("Product added successfully");
   };
 
   return (
